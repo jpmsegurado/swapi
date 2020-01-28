@@ -5,13 +5,16 @@
     </div>
     <div class="person-card__body">
       <div class="person-card__body__title">
-        Luke Skywalker
+        {{ name }}
+      </div>
+      <div class="person-card__body__gender">
+        {{ gender }}
       </div>
       <div class="person-card__body__height">
-        172 cm
+        {{ height }} cm
       </div>
       <div class="person-card__body__weight">
-        77 kg
+        {{ mass }} kg
       </div>
     </div>
   </el-card>
@@ -20,13 +23,31 @@
 <script>
 export default {
   name: 'PersonCard',
-  props: {}
+  props: {
+    name: {
+      type: String,
+      required: true
+    },
+    gender: {
+      type: String,
+      required: true
+    },
+    height: {
+      type: String,
+      required: true
+    },
+    mass: {
+      type: String,
+      required: true
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .person-card {
   border: 0;
+  border-radius: 6px;
 
   .el-card__body {
     padding: 0;
@@ -74,7 +95,7 @@ export default {
       margin-bottom: 10px;
     }
 
-    &__height {
+    &__height, &__gender {
       margin-bottom: 5px;
     }
   }
