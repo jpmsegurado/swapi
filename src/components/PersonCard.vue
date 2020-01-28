@@ -1,7 +1,7 @@
 <template>
   <el-card :body-style="{ padding: 0 }" class="person-card">
     <div class="person-card__image-wrapper">
-      <img src="https://s2.glbimg.com/LttsvVoQZGHoIJsmdlXMULY336A=/e.glbimg.com/og/ed/f/original/2019/09/23/ea1e16061bdf92edb111d8808c6741a6.jpg" class="image">
+      <img :src="image">
     </div>
     <div class="person-card__body">
       <div class="person-card__body__title">
@@ -24,6 +24,10 @@
 export default {
   name: 'PersonCard',
   props: {
+    image: {
+      type: String,
+      required: true
+    },
     name: {
       type: String,
       required: true

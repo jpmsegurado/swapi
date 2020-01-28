@@ -15,6 +15,7 @@
         class="home__person"
       >
         <person-card
+          :image="person.image"
           :name="person.name"
           :gender="person.gender"
           :height="person.height"
