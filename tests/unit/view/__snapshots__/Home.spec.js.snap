@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home #render renders correctly 1`] = `
+<div
+  class="home"
+  element-loading-background="rgba(0, 0, 0, 0.8)"
+  element-loading-spinner="el-icon-loading"
+  element-loading-text="Loading..."
+>
+  <h1
+    class="home__title text-center"
+  >
+    
+    Star Wars App
+  
+  </h1>
+   
+  <el-row-stub
+    class="home__search"
+  >
+    <el-col-stub
+      md="8"
+      offset-sm="12"
+      sm="12"
+    >
+      <el-input-stub
+        placeholder="What do you want to search?"
+        value=""
+      >
+        <el-button-stub
+          icon="el-icon-search"
+        />
+      </el-input-stub>
+    </el-col-stub>
+  </el-row-stub>
+   
+  <el-row-stub
+    gutter="20"
+  >
+     
+    <el-col-stub
+      span="24"
+    >
+      <!---->
+    </el-col-stub>
+  </el-row-stub>
+   
+  <!---->
+</div>
+`;
