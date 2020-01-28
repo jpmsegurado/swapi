@@ -10,6 +10,14 @@
       Star Wars App
     </h1>
 
+    <el-row class="home__search">
+      <el-col :md="8" :sm="12" :offset-sm="12">
+        <el-input v-model="search" @change="onSearchChange" placeholder="What do you want to search?">
+          <el-button slot="append" icon="el-icon-search" />
+        </el-input>
+      </el-col>
+    </el-row>
+
     <el-row :gutter="20">
       <el-col
         :lg="6"
@@ -28,15 +36,19 @@
           :mass="person.mass"
         />
       </el-col>
+
+      <el-col :span="24">
+        <div v-if="people.length === 0 && !loading" class="home__empty-state">
+          No result found
+        </div>
+      </el-col>
     </el-row>
 
-    <div class="home__pagination">
+    <div v-if="people.length > 0 && !loading" class="home__pagination">
       <el-pagination
         :page-size="params.size"
-        :page-count="params.currentPage"
+        :current-page="params.currentPage"
         :total="params.count"
-        @next-click="onNextClick"
-        @prev-click="onPrevClick"
         @current-change="onCurrentChange"
         background
         clas="home__pagination"
@@ -58,6 +70,7 @@ export default {
   data () {
     return {
       people: [],
+      search: '',
       loading: true,
       params: {
         size: 10,
@@ -66,28 +79,34 @@ export default {
       }
     }
   },
-  mounted () {
-    this.loadPeople()
+  async mounted () {
+    const page = parseInt(this.$route.query.page) || 1
+    const search = this.$route.query.search
+    await this.loadPeople({ page, search })
+    this.params.currentPage = page
+    this.search = search
   },
   methods: {
-    async loadPeople (page = 1) {
+    async loadPeople ({ page, search }) {
       this.loading = true
-      const { results, count } = await People.getAll({ page })
+
+      const params = { page }
+      if (search) { params.search = search }
+
+      const { results, count } = await People.getAll(params)
       this.people = results
       this.params.count = count
       this.loading = false
     },
-    onNextClick () {
-      this.params.currentPage += 1
-      this.loadPeople(this.params.currentPage)
+    async onCurrentChange (page) {
+      this.params.currentPage = page
+      await this.loadPeople({ page, search: this.search })
+      this.$router.push({ name: 'home', query: { page, search: this.search } })
     },
-    onPrevClick () {
-      this.params.currentPage -= 1
-      this.loadPeople(this.params.currentPage)
-    },
-    onCurrentChange (params) {
-      this.params.currentPage = params
-      this.loadPeople(this.params.currentPage)
+    async onSearchChange (search) {
+      const page = this.params.currentPage = 1
+      await this.loadPeople({ page, search })
+      this.$router.push({ name: 'home', query: { page, search } })
     }
   }
 }
@@ -104,6 +123,10 @@ export default {
     margin-bottom: 40px;
   }
 
+  &__search {
+    margin-bottom: 20px;
+  }
+
   &__person {
     margin-bottom: 20px;
   }
@@ -112,6 +135,11 @@ export default {
     width: 100%;
     display: flex;
     justify-content: center;
+  }
+
+  &__empty-state {
+    text-align: center;
+    padding: 100px 0;
   }
 }
 </style>
