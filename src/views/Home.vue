@@ -1,5 +1,11 @@
 <template>
-  <div class="home">
+  <div
+    v-loading.fullscreen.lock="loading"
+    element-loading-text="Loading..."
+    element-loading-spinner="el-icon-loading"
+    element-loading-background="rgba(0, 0, 0, 0.8)"
+    class="home"
+  >
     <h1 class="home__title text-center">
       Star Wars App
     </h1>
@@ -29,6 +35,9 @@
         :page-size="params.size"
         :page-count="params.currentPage"
         :total="params.count"
+        @next-click="onNextClick"
+        @prev-click="onPrevClick"
+        @current-change="onCurrentChange"
         background
         clas="home__pagination"
         layout="prev, pager, next"
@@ -49,23 +58,49 @@ export default {
   data () {
     return {
       people: [],
+      loading: true,
       params: {
         size: 10,
-        count: 100,
+        count: 0,
         currentPage: 2
       }
     }
   },
-  async mounted () {
-    const { results } = await People.getAll({ page: 1 })
-    this.people = results
+  mounted () {
+    this.loadPeople()
+  },
+  methods: {
+    async loadPeople (page = 1) {
+      this.loading = true
+      const { results, count } = await People.getAll({ page })
+      this.people = results
+      this.params.count = count
+      this.loading = false
+    },
+    onNextClick () {
+      this.params.currentPage += 1
+      this.loadPeople(this.params.currentPage)
+    },
+    onPrevClick () {
+      this.params.currentPage -= 1
+      this.loadPeople(this.params.currentPage)
+    },
+    onCurrentChange (params) {
+      this.params.currentPage = params
+      this.loadPeople(this.params.currentPage)
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .home {
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+
   &__title {
+    width: 100%;
     margin-bottom: 40px;
   }
 
@@ -74,6 +109,7 @@ export default {
   }
 
   &__pagination {
+    width: 100%;
     display: flex;
     justify-content: center;
   }

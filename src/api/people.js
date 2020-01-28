@@ -11,9 +11,8 @@ const People = {
       return item
     }))
 
-    console.log(items)
-
-    return { results: items }
+    response.data.results = items
+    return response.data
   }
 }
 

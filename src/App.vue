@@ -15,8 +15,4 @@ body {
   background-color: $primary;
   color: $secondary;
 }
-
-.app {
-  padding: 20px;
-}
 </style>
