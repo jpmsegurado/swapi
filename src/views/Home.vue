@@ -38,13 +38,13 @@
       </el-col>
 
       <el-col :span="24">
-        <div v-if="people.length === 0 && !loading" class="home__empty-state">
+        <div v-if="showEmptyState" class="home__empty-state">
           No result found
         </div>
       </el-col>
     </el-row>
 
-    <div v-if="people.length > 0 && !loading" class="home__pagination">
+    <div v-if="showPagination" class="home__pagination">
       <el-pagination
         :page-size="params.size"
         :current-page="params.currentPage"
@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import People from '../api/people'
+import People from '@/api/people'
 import PersonCard from '@/components/PersonCard.vue'
 
 export default {
@@ -79,19 +79,27 @@ export default {
       }
     }
   },
+  computed: {
+    showPagination () {
+      return this.people.length > 0 && !this.loading
+    },
+    showEmptyState () {
+      return this.people.length === 0 && !this.loading
+    }
+  },
   async mounted () {
     const page = parseInt(this.$route.query.page) || 1
     const search = this.$route.query.search
     await this.loadPeople({ page, search })
     this.params.currentPage = page
-    this.search = search
+    if (search) { this.search = search }
   },
   methods: {
-    async loadPeople ({ page, search }) {
+    async loadPeople ({ page, search = '' }) {
       this.loading = true
 
       const params = { page }
-      if (search) { params.search = search }
+      if (search.length > 0) { params.search = search }
 
       const { results, count } = await People.getAll(params)
       this.people = results
