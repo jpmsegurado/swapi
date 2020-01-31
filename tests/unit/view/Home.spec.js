@@ -1,7 +1,15 @@
 import { shallowMount } from '@vue/test-utils'
+import MockAdapter from 'axios-mock-adapter'
+import client from '@/client'
 import Home from '@/views/Home'
 import mock from '@/api/mock'
 import People from '@/api/people'
+
+const adapter = new MockAdapter(client)
+
+adapter.onGet('/people').reply(200, mock)
+
+People.getAll = jest.fn().mockResolvedValue(mock)
 
 const $route = {
   query: {}
@@ -10,8 +18,6 @@ const $route = {
 const $router = {
   push: jest.fn()
 }
-
-People.getAll = jest.fn().mockResolvedValue(mock)
 
 function setup () {
   return shallowMount(Home, {

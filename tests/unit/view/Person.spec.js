@@ -1,21 +1,21 @@
 import { shallowMount } from '@vue/test-utils'
+import MockAdapter from 'axios-mock-adapter'
+import client from '@/client'
 import { person } from '@/api/mock'
 import Person from '@/views/Person'
-import client from '@/client'
 import People from '@/api/people'
+
+const adapter = new MockAdapter(client)
 
 const $route = {
   params: {
-    id: 14
+    id: 2
   }
 }
 
-localStorage.getItem = jest.fn().mockImplementation(() => false)
-localStorage.setItem = jest.fn().mockImplementation(() => false)
+adapter.onGet('/people/' + $route.params.id).reply(200, person)
 
 function setup () {
-  localStorage.getItem = jest.fn().mockImplementation(() => false)
-  localStorage.setItem = jest.fn().mockImplementation(() => false)
   return shallowMount(Person, {
     mocks: {
       $route
@@ -85,8 +85,8 @@ describe('Person', () => {
       })
 
       it('when called it sets person homeworld', async () => {
-        const response = { data: { name: 'tatooine' } }
-        client.get = jest.fn().mockResolvedValue(response)
+        const response = { name: 'tatooine' }
+        adapter.onGet('swapi.com').reply(200, response)
         await wrapper.vm.loadWorld('swapi.com')
         expect(wrapper.vm.person.homeworld).toEqual({ name: 'tatooine' })
       })
@@ -100,10 +100,10 @@ describe('Person', () => {
       })
 
       it('when called with no urls it sets person films to empty array', async () => {
-        const response = { data: { name: 'film 1' } }
-        client.get = jest.fn().mockResolvedValue(response)
+        const response = { name: 'film 1' }
+        adapter.onGet('swapi.com').reply(200, response)
         await wrapper.vm.loadFilms(['swapi.com', 'swapi.com'])
-        const films = [response.data, response.data]
+        const films = [response, response]
         expect(wrapper.vm.person.films).toEqual(films)
       })
     })
@@ -116,10 +116,10 @@ describe('Person', () => {
       })
 
       it('when called with no urls it sets person species to empty array', async () => {
-        const response = { data: { name: 'specie 1' } }
-        client.get = jest.fn().mockResolvedValue(response)
+        const response = { name: 'specie 1' }
+        adapter.onGet('swapi.com').reply(200, response)
         await wrapper.vm.loadSpecies(['swapi.com', 'swapi.com'])
-        const species = [response.data, response.data]
+        const species = [response, response]
         expect(wrapper.vm.person.species).toEqual(species)
       })
     })
@@ -132,10 +132,10 @@ describe('Person', () => {
       })
 
       it('when called with no urls it sets person vehicles to empty array', async () => {
-        const response = { data: { name: 'vehicle 1' } }
-        client.get = jest.fn().mockResolvedValue(response)
+        const response = { name: 'vehicle 1' }
+        adapter.onGet('swapi.com').reply(200, response)
         await wrapper.vm.loadVehicles(['swapi.com', 'swapi.com'])
-        const vehicles = [response.data, response.data]
+        const vehicles = [response, response]
         expect(wrapper.vm.person.vehicles).toEqual(vehicles)
       })
     })
@@ -148,10 +148,10 @@ describe('Person', () => {
       })
 
       it('when called with no urls it sets person starships to empty array', async () => {
-        const response = { data: { name: 'starship 1' } }
-        client.get = jest.fn().mockResolvedValue(response)
+        const response = { name: 'starship 1' }
+        adapter.onGet('swapi.com').reply(200, response)
         await wrapper.vm.loadStarships(['swapi.com', 'swapi.com'])
-        const starships = [response.data, response.data]
+        const starships = [response, response]
         expect(wrapper.vm.person.starships).toEqual(starships)
       })
     })
