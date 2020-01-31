@@ -305,4 +305,37 @@ const mock = {
 
 mock.results.forEach((item) => { item.image = 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Star_Wars_Logo_2.svg' })
 
+export const person = {
+  name: 'C-3PO',
+  height: '167',
+  mass: '75',
+  hair_color: 'n/a',
+  skin_color: 'gold',
+  eye_color: 'yellow',
+  birth_year: '112BBY',
+  gender: 'n/a',
+  homeworld: { name: 'Tatooine' },
+  films: [
+    { title: 'A New Hope' },
+    { title: 'Rise of skywalker' }
+  ],
+  species: [
+    { name: 'Robot' },
+    { name: 'Droid' }
+  ],
+  vehicles: [
+    { name: 'Falcon' },
+    { name: 'X-wing' }
+  ],
+  starships: [
+    { name: 'Falcon' },
+    { name: 'X-wing' }
+  ],
+  created: '2014-12-10T15:10:51.357000Z',
+  edited: '2014-12-20T21:17:50.309000Z',
+  url: 'https://swapi.co/api/people/2/',
+  image: 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Star_Wars_Logo_2.svg',
+  id: 2
+}
+
 export default mock

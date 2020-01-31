@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Person #render renders correcly 1`] = `
+<div
+  class="person"
+  element-loading-background="rgba(0, 0, 0, 0.8)"
+  element-loading-spinner="el-icon-loading"
+  element-loading-text="Loading..."
+>
+  <div
+    class="person__profile"
+  >
+    <div
+      class="person__profile__image"
+    >
+      <img />
+    </div>
+     
+    <h2
+      class="person__profile__name"
+    >
+      
+      
+    
+    </h2>
+     
+    <p
+      class="person__profile__field"
+    >
+      
+      Birth Year: 
+      <strong>
+        
+      </strong>
+    </p>
+     
+    <p
+      class="person__profile__field"
+    >
+      
+      Eye color: 
+      <strong>
+        
+      </strong>
+    </p>
+     
+    <p
+      class="person__profile__field"
+    >
+      
+      Gender: 
+      <strong>
+        
+      </strong>
+    </p>
+     
+    <p
+      class="person__profile__field"
+    >
+      
+      Hair color: 
+      <strong>
+        
+      </strong>
+    </p>
+     
+    <p
+      class="person__profile__field"
+    >
+      
+      Height: 
+      <strong>
+        cm
+      </strong>
+    </p>
+     
+    <p
+      class="person__profile__field"
+    >
+      
+      Mass: 
+      <strong>
+        kg
+      </strong>
+    </p>
+     
+    <p
+      class="person__profile__field"
+    >
+      
+      Skin color: 
+      <strong>
+        
+      </strong>
+    </p>
+  </div>
+   
+  <!---->
+</div>
+`;

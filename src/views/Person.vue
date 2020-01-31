@@ -67,7 +67,14 @@
       <div class="person__content__section">
         <h2>Vehicles</h2>
         <p>
-          {{ vehicles.length > 0 ? vehicles : 'No Vehicles' }}
+          {{ vehicles.length > 2 ? vehicles : 'No Vehicles' }}
+        </p>
+      </div>
+
+      <div class="person__content__section">
+        <h2>Starship</h2>
+        <p>
+          {{ starships.length > 2 ? starships : 'No Starships' }}
         </p>
       </div>
     </div>
@@ -94,6 +101,9 @@ export default {
     },
     vehicles () {
       return this.person.vehicles.map(vehicle => vehicle.name).join(', ')
+    },
+    starships () {
+      return this.person.starships.map(starship => starship.name).join(', ')
     }
   },
   async mounted () {
@@ -101,6 +111,7 @@ export default {
     await this.loadWorld(this.person.homeworld)
     await this.loadFilms(this.person.films)
     await this.loadSpecies(this.person.species)
+    await this.loadStarships(this.person.starships)
     this.loading = false
   },
   methods: {
@@ -140,6 +151,17 @@ export default {
       }))
 
       this.person.vehicles = vehicles
+    },
+    async loadStarships (starshipsUrl) {
+      if (starshipsUrl.length === 0) { this.person.starships = [] }
+
+      const starships = await Promise.all(starshipsUrl.map(async (url) => {
+        const response = await client.get(url)
+        const starship = response.data
+        return starship
+      }))
+
+      this.person.starships = starships
     }
   }
 }
@@ -207,6 +229,7 @@ export default {
 
     &__profile {
       width: 100%;
+      border: 0;
     }
 
     &__content {
