@@ -34,6 +34,7 @@
           :gender="person.gender"
           :height="person.height"
           :mass="person.mass"
+          @click.native="$router.push({ name: 'person', params: { id: person.id } })"
         />
       </el-col>
 
@@ -109,12 +110,16 @@ export default {
     async onCurrentChange (page) {
       this.params.currentPage = page
       await this.loadPeople({ page, search: this.search })
-      this.$router.push({ name: 'home', query: { page, search: this.search } })
+      const query = { page }
+      if (this.search && this.search.length > 0) { query.search = this.search }
+      this.$router.push({ name: 'home', query })
     },
     async onSearchChange (search) {
       const page = this.params.currentPage = 1
       await this.loadPeople({ page, search })
-      this.$router.push({ name: 'home', query: { page, search } })
+      const query = { page }
+      if (this.search && this.search.length > 0) { query.search = this.search }
+      this.$router.push({ name: 'home', query })
     }
   }
 }

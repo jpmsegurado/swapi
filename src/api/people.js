@@ -21,6 +21,9 @@ const People = {
         } catch (e) {
           item.image = 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Star_Wars_Logo_2.svg'
         }
+
+        const id = parseInt(item.url.match(/[0-9]{1,5}/))
+        item.id = id
         return item
       }))
 
@@ -32,13 +35,25 @@ const People = {
       return mock
     }
   },
-  async search ({ page = 1, search }) {
-    const response = await client.get('/people', { params: { page, search } })
-    response.data.results = response.data.results.map((item) => {
+  async get (id) {
+    const json = localStorage.getItem(`person/${id}`)
+    if (json) { return JSON.parse(json) }
+
+    const response = await client.get(`/people/${id}`)
+    const item = response.data
+
+    try {
+      const { data } = await Image.getFromGoogle(item.name.toLowerCase())
+      item.image = data.items[0].link
+    } catch (e) {
       item.image = 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Star_Wars_Logo_2.svg'
-      return item
-    })
-    return response.data
+    }
+
+    item.id = parseInt(id)
+
+    localStorage.setItem(`person/${id}`, JSON.stringify(item))
+
+    return item
   }
 }
 

@@ -94,7 +94,7 @@ describe('Home', () => {
 
       it('when called it calls $router.push with page and search', () => {
         wrapper.vm.onCurrentChange(2)
-        expect(wrapper.vm.$router.push).toHaveBeenCalledWith({ name: 'home', query: { page: 2, search: '' } })
+        expect(wrapper.vm.$router.push).toHaveBeenCalledWith({ name: 'home', query: { page: 2 } })
       })
     })
 
